@@ -28,6 +28,18 @@ const Navbar = ({ sidebarOpen, setSidebarOpen }) => {
   return (
     <header className="sticky top-0 z-30 flex items-center justify-between h-16 px-4 sm:px-6 border-b border-gray-200 bg-white/80 backdrop-blur-md dark:bg-dark-card/80 dark:border-dark-border">
       
+      {/* Mobile Menu Button */}
+      <button 
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+        className="p-2 mr-2 rounded-md lg:hidden text-gray-500 hover:bg-gray-100 dark:hover:bg-dark-border transition-colors"
+      >
+        <Search className="w-6 h-6 lg:hidden" style={{ display: 'none' }} /> {/* Just to keep layout if needed */}
+        <div className="w-6 h-6 flex flex-col justify-center space-y-1.5">
+          <span className={`block w-6 h-0.5 bg-gray-500 transition-transform ${sidebarOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
+          <span className={`block w-6 h-0.5 bg-gray-500 transition-opacity ${sidebarOpen ? 'opacity-0' : ''}`}></span>
+          <span className={`block w-6 h-0.5 bg-gray-500 transition-transform ${sidebarOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
+        </div>
+      </button>
       {/* Global Search */}
       <div className="flex items-center relative hidden sm:block z-50">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />

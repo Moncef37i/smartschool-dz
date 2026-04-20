@@ -22,12 +22,24 @@ const navItems = [
 
 const Sidebar = ({ isOpen, setIsOpen }) => {
   return (
-    <motion.aside
-      initial={{ width: 260 }}
-      animate={{ width: isOpen ? 260 : 80 }}
-      transition={{ duration: 0.3 }}
-      className="flex flex-col z-20 shrink-0 bg-white dark:bg-dark-card border-r border-gray-200 dark:border-dark-border"
-    >
+    <>
+      {/* Mobile Overlay */}
+      <div 
+        className={`fixed inset-0 z-40 bg-gray-900/50 backdrop-blur-sm lg:hidden transition-opacity duration-300 ${
+          isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
+        onClick={() => setIsOpen(false)}
+      />
+
+      <motion.aside
+        initial={false}
+        animate={{ 
+          width: isOpen ? 260 : 80,
+          x: isOpen ? 0 : (window.innerWidth < 1024 ? -260 : 0)
+        }}
+        transition={{ duration: 0.3, ease: 'easeInOut' }}
+        className={`fixed lg:static inset-y-0 left-0 flex flex-col z-50 shrink-0 bg-white dark:bg-dark-card border-r border-gray-200 dark:border-dark-border shadow-xl lg:shadow-none`}
+      >
       <div className="flex items-center justify-between h-16 px-4 border-b border-gray-200 dark:border-dark-border">
         {isOpen ? (
           <span className="text-2xl font-black text-primary-600 dark:text-primary-400 tracking-tight">
@@ -66,7 +78,8 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
           ))}
         </ul>
       </div>
-    </motion.aside>
+      </motion.aside>
+    </>
   );
 };
 
