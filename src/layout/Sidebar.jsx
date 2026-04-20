@@ -30,11 +30,11 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
     >
       <div className="flex items-center justify-between h-16 px-4 border-b border-gray-200 dark:border-dark-border">
         {isOpen ? (
-          <span className="text-xl font-bold bg-gradient-to-r from-primary-600 to-primary-400 bg-clip-text text-transparent">
-            SmartSchool DZ
+          <span className="text-2xl font-black text-primary-600 dark:text-primary-400 tracking-tight">
+            SmartSchool <span className="text-primary-700 dark:text-primary-300">DZ</span>
           </span>
         ) : (
-          <span className="text-xl font-bold text-primary-600 mx-auto">DZ</span>
+          <span className="text-2xl font-black text-primary-600 dark:text-primary-400">DZ</span>
         )}
         <button 
           onClick={() => setIsOpen(!isOpen)}
