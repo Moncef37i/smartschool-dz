@@ -43,7 +43,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       <div className="flex items-center justify-between h-16 px-4 border-b border-gray-200 dark:border-dark-border">
         {isOpen ? (
           <span className="text-2xl font-black text-primary-600 dark:text-primary-400 tracking-tight">
-            SmartSchool <span className="text-primary-700 dark:text-primary-300">DZ</span>
+            SmartSchool DZ
           </span>
         ) : (
           <span className="text-2xl font-black text-primary-600 dark:text-primary-400">DZ</span>
