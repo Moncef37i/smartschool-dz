@@ -64,7 +64,7 @@ const Teachers = () => {
                 <div className="flex justify-between items-start">
                   <div className="relative">
                     <img 
-                      src={`https://api.dicebear.com/7.x/notionists/svg?seed=${teacher.name}&gender=${teacher.gender?.toLowerCase() || 'male'}`} 
+                      src={`https://api.dicebear.com/7.x/notionists/svg?seed=${teacher.gender === 'Male' ? 'Felix' : 'Lucy'}-${teacher.name}`} 
                       alt={teacher.name} 
                       className="w-16 h-16 rounded-2xl bg-gray-100 dark:bg-dark-bg p-1 object-cover"
                     />

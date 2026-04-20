@@ -123,7 +123,7 @@ const Students = () => {
                     <TableCell className="font-medium text-gray-900 dark:text-gray-100">
                       <div className="flex items-center gap-3">
                         <img 
-                          src={`https://api.dicebear.com/7.x/notionists/svg?seed=${student.name}&gender=${student.gender?.toLowerCase() || 'male'}`} 
+                          src={`https://api.dicebear.com/7.x/notionists/svg?seed=${student.gender === 'Male' ? 'Felix' : 'Lucy'}-${student.name}`} 
                           alt="avatar" 
                           className="w-8 h-8 rounded-full bg-gray-100 dark:bg-dark-bg"
                         />
