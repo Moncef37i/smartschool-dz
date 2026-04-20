@@ -44,13 +44,13 @@ const initialTimetables = {
 };
 
 export function AppProvider({ children }) {
-  const [students, setStudents] = useLocalStorage('app_students', initialStudents);
-  const [teachers, setTeachers] = useLocalStorage('app_teachers', initialTeachers);
-  const [classes, setClasses] = useLocalStorage('app_classes', initialClasses);
-  const [announcements, setAnnouncements] = useLocalStorage('app_announcements', []);
-  const [fees, setFees] = useLocalStorage('app_fees', initialFees);
-  const [timetables, setTimetables] = useLocalStorage('app_timetables', initialTimetables);
-  const [attendance, setAttendance] = useLocalStorage('app_attendance', {});
+  const [students, setStudents] = useLocalStorage('v2_app_students', initialStudents);
+  const [teachers, setTeachers] = useLocalStorage('v2_app_teachers', initialTeachers);
+  const [classes, setClasses] = useLocalStorage('v2_app_classes', initialClasses);
+  const [announcements, setAnnouncements] = useLocalStorage('v2_app_announcements', []);
+  const [fees, setFees] = useLocalStorage('v2_app_fees', initialFees);
+  const [timetables, setTimetables] = useLocalStorage('v2_app_timetables', initialTimetables);
+  const [attendance, setAttendance] = useLocalStorage('v2_app_attendance', {});
   const [toasts, setToasts] = useState([]);
 
   const addToast = (message, type = 'success') => {
