@@ -5,7 +5,7 @@ import { teachersData as initialTeachers } from '../data/teachers';
 
 const AppContext = createContext();
 
-// Mock Initial data for missing domains
+// Expanded Classes
 const initialClasses = [
   { id: 1, name: '10A', capacity: 30, teacher: 'Omar Kadir' },
   { id: 2, name: '9B', capacity: 25, teacher: 'Leila Toumi' },
@@ -17,144 +17,60 @@ const initialClasses = [
   { id: 8, name: '11A', capacity: 30, teacher: 'Faouzi Chaouchi' },
   { id: 9, name: '9A', capacity: 25, teacher: 'Zahra Nemchi' },
   { id: 10, name: '10C', capacity: 28, teacher: 'Ahmed Gherbi' },
+  { id: 11, name: '8B', capacity: 28, teacher: 'Khadidja Benguenna' },
+  { id: 12, name: '12B', capacity: 22, teacher: 'Mourad Meghni' },
+  { id: 13, name: '7A', capacity: 30, teacher: 'Souad Massi' },
 ];
 
-const initialAnnouncements = [
-  { id: 1, title: 'Final Exam Schedule', date: '2026-05-10', message: 'The final exam schedule for Term 2 has been posted. Please check your emails for details.' },
-  { id: 2, title: 'Math Exam Tomorrow', date: '2026-04-21', message: 'Reminder: The Grade 10A Mathematics exam is scheduled for tomorrow at 08:30 AM.' },
-  { id: 3, title: 'Sports Day 2026', date: '2026-05-15', message: 'Annual sports day will be held on May 15th. Sign up for events in the gym.' },
-  { id: 4, title: 'Science Fair Results', date: '2026-04-19', message: 'Congratulations to all winners of the Science Fair! Certificates will be distributed on Monday.' },
-];
+// 200 Mock Fee Records
+const initialFees = Array.from({ length: 200 }, (_, i) => ({
+  id: i + 1,
+  studentId: (i % 60) + 1,
+  amount: 15000 + (Math.random() * 10000),
+  status: Math.random() > 0.3 ? 'Paid' : 'Overdue',
+  date: `2026-0${1 + (i % 4)}-${10 + (i % 15)}`
+}));
 
-const initialTimetable = [
-  { day: 'Monday', slots: [
-    { time: '08:00 - 09:30', subject: 'Mathematics', teacher: 'Omar Kadir', class: '10A' },
-    { time: '09:45 - 11:15', subject: 'Physics', teacher: 'Leila Toumi', class: '10A' },
-    { time: '11:30 - 13:00', subject: 'Arabic', teacher: 'Samir Brahimi', class: '10A' },
-  ]},
-  { day: 'Tuesday', slots: [
-    { time: '08:00 - 09:30', subject: 'History', teacher: 'Djamila Bacha', class: '10A' },
-    { time: '09:45 - 11:15', subject: 'Computer Science', teacher: 'Ahmed Gherbi', class: '10A' },
-    { time: '11:30 - 13:00', subject: 'English', teacher: 'Hassan Yebda', class: '10A' },
-  ]},
-  { day: 'Wednesday', slots: [
-    { time: '08:00 - 09:30', subject: 'Chemistry', teacher: 'Faouzi Chaouchi', class: '10A' },
-    { time: '09:45 - 11:15', subject: 'Biology', teacher: 'Zahra Nemchi', class: '10A' },
-    { time: '11:30 - 13:00', subject: 'Physical Education', teacher: 'Zinedine Zidane', class: '10A' },
-  ]},
-  { day: 'Thursday', slots: [
-    { time: '08:00 - 09:30', subject: 'Geography', teacher: 'Mourad Meghni', class: '10A' },
-    { time: '09:45 - 11:15', subject: 'Philosophy', teacher: 'Sadek El Bachir', class: '10A' },
-    { time: '11:30 - 13:00', subject: 'Music', teacher: 'Amel Zen', class: '10A' },
-  ]},
-  { day: 'Friday', slots: [
-    { time: '08:00 - 09:30', subject: 'Islamic Studies', teacher: 'Fatima Djebbar', class: '10A' },
-    { time: '09:45 - 11:15', subject: 'Art', teacher: 'Souad Massi', class: '10A' },
-  ]},
-];
+// Class-specific Timetables
+const initialTimetables = {
+  '10A': [
+    { day: 'Monday', slots: [{ time: '08:00', subject: 'Math', teacher: 'Omar Kadir' }, { time: '09:45', subject: 'Physics', teacher: 'Leila Toumi' }] },
+    { day: 'Tuesday', slots: [{ time: '08:00', subject: 'History', teacher: 'Djamila Bacha' }, { time: '09:45', subject: 'Arabic', teacher: 'Samir Brahimi' }] }
+  ],
+  '9B': [
+    { day: 'Monday', slots: [{ time: '08:00', subject: 'English', teacher: 'Hassan Yebda' }, { time: '09:45', subject: 'Art', teacher: 'Souad Massi' }] },
+    { day: 'Tuesday', slots: [{ time: '08:00', subject: 'Science', teacher: 'Zahra Nemchi' }, { time: '09:45', subject: 'Math', teacher: 'Nabil Bentaleb' }] }
+  ]
+};
 
 export function AppProvider({ children }) {
   const [students, setStudents] = useLocalStorage('app_students', initialStudents);
   const [teachers, setTeachers] = useLocalStorage('app_teachers', initialTeachers);
   const [classes, setClasses] = useLocalStorage('app_classes', initialClasses);
-  const [announcements, setAnnouncements] = useLocalStorage('app_announcements', initialAnnouncements);
-  const [timetable, setTimetable] = useLocalStorage('app_timetable', initialTimetable);
-  const [notifications, setNotifications] = useLocalStorage('app_notifications', [
-    { id: 1, text: 'Exam schedule updated.', read: false },
-    { id: 2, text: 'Welcome to SmartSchool DZ Dashboard!', read: false }
-  ]);
-  const [fees, setFees] = useLocalStorage('app_fees', [
-    { id: 1, studentId: 1, amount: 20000, status: 'Paid', date: '2026-04-01' },
-    { id: 2, studentId: 2, amount: 20000, status: 'Overdue', date: '2026-04-01' },
-    { id: 3, studentId: 4, amount: 20000, status: 'Paid', date: '2026-04-01' },
-    { id: 4, studentId: 6, amount: 20000, status: 'Overdue', date: '2026-04-01' },
-  ]);
+  const [announcements, setAnnouncements] = useLocalStorage('app_announcements', []);
+  const [fees, setFees] = useLocalStorage('app_fees', initialFees);
+  const [timetables, setTimetables] = useLocalStorage('app_timetables', initialTimetables);
   const [attendance, setAttendance] = useLocalStorage('app_attendance', {});
-
   const [toasts, setToasts] = useState([]);
 
-  // Generic Toast handler
   const addToast = (message, type = 'success') => {
     const id = Date.now();
     setToasts((prev) => [...prev, { id, message, type }]);
-    setTimeout(() => {
-      setToasts((prev) => prev.filter((t) => t.id !== id));
-    }, 3000);
-  };
-
-  // Notification handler
-  const notify = (text) => {
-    setNotifications((prev) => [{ id: Date.now(), text, read: false }, ...prev]);
-  };
-
-  const markNotificationsRead = () => {
-    setNotifications(prev => prev.map(n => ({...n, read: true})));
-  };
-
-  // CRUD Students
-  const addStudent = (studentData) => {
-    const newStudent = { id: Date.now(), ...studentData, status: 'Active' };
-    setStudents([newStudent, ...students]);
-    addToast('Student added successfully!');
-    notify(`New student added: ${studentData.name}`);
-  };
-
-  const updateStudent = (id, updatedData) => {
-    setStudents(students.map(s => s.id === id ? { ...s, ...updatedData } : s));
-    addToast('Student updated!');
-  };
-
-  const deleteStudent = (id) => {
-    setStudents(students.filter(s => s.id !== id));
-    addToast('Student removed', 'error');
-  };
-
-  // CRUD Teachers
-  const addTeacher = (data) => {
-    setTeachers([{ id: Date.now(), ...data, status: 'Active' }, ...teachers]);
-    addToast('Teacher mapped successfully!');
-    notify(`New teacher joining: ${data.name}`);
-  };
-
-  const deleteTeacher = (id) => setTeachers(teachers.filter(t => t.id !== id));
-
-  // Announcements CRUD
-  const addAnnouncement = (data) => {
-    setAnnouncements([{ id: Date.now(), ...data }, ...announcements]);
-    notify(`Announcement posted: ${data.title}`);
-    addToast('Notice published!');
-  };
-
-  // General Methods
-  const toggleFeeStatus = (feeId) => {
-    setFees(fees.map(f => f.id === feeId ? { ...f, status: f.status === 'Paid' ? 'Overdue' : 'Paid' } : f));
-  };
-  
-  const setStudentAttendance = (studentId, status) => {
-    setAttendance({...attendance, [studentId]: status});
+    setTimeout(() => setToasts((prev) => prev.filter((t) => t.id !== id)), 3000);
   };
 
   const contextValue = {
-    students, addStudent, updateStudent, deleteStudent,
-    teachers, addTeacher, deleteTeacher,
+    students, setStudents,
+    teachers, setTeachers,
     classes, setClasses,
-    fees, toggleFeeStatus,
-    attendance, setStudentAttendance,
-    announcements, addAnnouncement,
-    timetable,
-    notifications, markNotificationsRead,
-    toasts
+    fees, setFees,
+    announcements,
+    timetables,
+    attendance, setAttendance,
+    toasts, addToast
   };
 
-  return (
-    <AppContext.Provider value={contextValue}>
-      {children}
-    </AppContext.Provider>
-  );
+  return <AppContext.Provider value={contextValue}>{children}</AppContext.Provider>;
 }
 
-export const useAppContext = () => {
-  const context = useContext(AppContext);
-  if (!context) throw new Error('useAppContext must be used within AppProvider');
-  return context;
-};
+export const useAppContext = () => useContext(AppContext);

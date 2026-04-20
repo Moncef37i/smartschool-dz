@@ -120,7 +120,16 @@ const Students = () => {
                     key={student.id} 
                     className="border-b border-gray-100 dark:border-dark-border hover:bg-gray-50 dark:hover:bg-dark-border/50 transition-colors"
                   >
-                    <TableCell className="font-medium text-gray-900 dark:text-gray-100">{student.name}</TableCell>
+                    <TableCell className="font-medium text-gray-900 dark:text-gray-100">
+                      <div className="flex items-center gap-3">
+                        <img 
+                          src={`https://api.dicebear.com/7.x/notionists/svg?seed=${student.name}&gender=${student.gender.toLowerCase()}`} 
+                          alt="avatar" 
+                          className="w-8 h-8 rounded-full bg-gray-100 dark:bg-dark-bg"
+                        />
+                        <span>{student.name}</span>
+                      </div>
+                    </TableCell>
                     <TableCell>
                       <div className="flex flex-col">
                         <span className="text-sm dark:text-gray-300">{student.gender}</span>

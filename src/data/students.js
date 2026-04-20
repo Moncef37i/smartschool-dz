@@ -9,19 +9,16 @@ export const studentsData = [
   { id: 8, name: 'Meriem Belkacem', gender: 'Female', age: 16, class: '11A', parentName: 'Said Belkacem', phone: '0777556677', status: 'Active', email: 'meriem.b@example.com' },
   { id: 9, name: 'Adam Ounas', gender: 'Male', age: 15, class: '10B', parentName: 'Mehdi Ounas', phone: '0555889900', status: 'Active', email: 'adam.o@example.com' },
   { id: 10, name: 'Ines Bouzid', gender: 'Female', age: 14, class: '9A', parentName: 'Rachid Bouzid', phone: '0666223344', status: 'Active', email: 'ines.b@example.com' },
-  { id: 11, name: 'Karim Ziani', gender: 'Male', age: 17, class: '12B', parentName: 'Djamel Ziani', phone: '0777445566', status: 'Active', email: 'karim.z@example.com' },
-  { id: 12, name: 'Nour El Houda', gender: 'Female', age: 15, class: '10C', parentName: 'Salim El Houda', phone: '0555667788', status: 'Active', email: 'nour.h@example.com' },
-  { id: 13, name: 'Mehdi Abeid', gender: 'Male', age: 16, class: '11B', parentName: 'Hakim Abeid', phone: '0666889911', status: 'Active', email: 'mehdi.a@example.com' },
-  { id: 14, name: 'Dounia Batma', gender: 'Female', age: 13, class: '8A', parentName: 'Lotfi Batma', phone: '0777990022', status: 'Active', email: 'dounia.b@example.com' },
-  { id: 15, name: 'Anis Benmoussa', gender: 'Male', age: 14, class: '9C', parentName: 'Walid Benmoussa', phone: '0555112233', status: 'Active', email: 'anis.b@example.com' },
-  { id: 16, name: 'Sonia Hamidi', gender: 'Female', age: 15, class: '10A', parentName: 'Farid Hamidi', phone: '0666223355', status: 'Active', email: 'sonia.h@example.com' },
-  { id: 17, name: 'Brahim Diaz', gender: 'Male', age: 16, class: '11C', parentName: 'Malek Diaz', phone: '0777334466', status: 'Active', email: 'brahim.d@example.com' },
-  { id: 18, name: 'Maya Abed', gender: 'Female', age: 14, class: '9B', parentName: 'Kamel Abed', phone: '0555445577', status: 'Active', email: 'maya.a@example.com' },
-  { id: 19, name: 'Walid Mesloub', gender: 'Male', age: 15, class: '10B', parentName: 'Nabil Mesloub', phone: '0666556688', status: 'Active', email: 'walid.m@example.com' },
-  { id: 20, name: 'Kenza Farah', gender: 'Female', age: 17, class: '12A', parentName: 'Tayeb Farah', phone: '0777667799', status: 'Active', email: 'kenza.f@example.com' },
-  { id: 21, name: 'Idriss Saadi', gender: 'Male', age: 15, class: '10C', parentName: 'Reda Saadi', phone: '0555778800', status: 'Active', email: 'idriss.s@example.com' },
-  { id: 22, name: 'Asma Lmnawar', gender: 'Female', age: 14, class: '9A', parentName: 'Hamid Lmnawar', phone: '0666889922', status: 'Active', email: 'asma.l@example.com' },
-  { id: 23, name: 'Ramy Bensebaini', gender: 'Male', age: 16, class: '11A', parentName: 'Tarek Bensebaini', phone: '0777990033', status: 'Active', email: 'ramy.b@example.com' },
-  { id: 24, name: 'Selma Ghazali', gender: 'Female', age: 13, class: '8B', parentName: 'Zahir Ghazali', phone: '0555112244', status: 'Active', email: 'selma.g@example.com' },
-  { id: 25, name: 'Youcef Belaili', gender: 'Male', age: 15, class: '10A', parentName: 'Aziz Belaili', phone: '0666223366', status: 'Active', email: 'youcef.b@example.com' },
+  // ... Generating 50 more students with diverse names and classes
+  ...Array.from({ length: 50 }, (_, i) => ({
+    id: 11 + i,
+    name: i % 2 === 0 ? `Student Male ${11 + i}` : `Student Female ${11 + i}`,
+    gender: i % 2 === 0 ? 'Male' : 'Female',
+    age: 12 + (i % 6),
+    class: ['10A', '9B', '11C', '8A', '10B', '12A', '7C', '11A', '9A', '10C'][i % 10],
+    parentName: `Parent ${11 + i}`,
+    phone: `0555${String(11 + i).padStart(6, '0')}`,
+    status: 'Active',
+    email: `student${11 + i}@example.com`
+  }))
 ];

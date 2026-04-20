@@ -135,7 +135,7 @@ const Navbar = ({ sidebarOpen, setSidebarOpen }) => {
 
         <div className="flex items-center space-x-2 cursor-pointer group">
           <img 
-            src="https://api.dicebear.com/7.x/notionists/svg?seed=Admin" 
+            src="https://api.dicebear.com/7.x/notionists/svg?seed=Moncef" 
             alt="User avatar" 
             className="w-8 h-8 rounded-full bg-primary-100 dark:bg-primary-900 border border-primary-200 dark:border-primary-700" 
           />

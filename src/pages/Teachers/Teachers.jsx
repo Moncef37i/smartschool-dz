@@ -5,6 +5,7 @@ import { Card, CardContent } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { Modal } from '../../components/ui/Modal';
 import { Input } from '../../components/ui/Input';
+import { Select } from '../../components/ui/Select';
 import { useAppContext } from '../../context/AppContext';
 
 const Teachers = () => {
@@ -13,7 +14,7 @@ const Teachers = () => {
   
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [formData, setFormData] = useState({ name: '', subject: '', phone: '', experience: '1 Year' });
+  const [formData, setFormData] = useState({ name: '', subject: '', phone: '', experience: '1 Year', gender: 'Male' });
 
   const filteredTeachers = teachers.filter(t => 
     t.name.toLowerCase().includes(search.toLowerCase()) || 
@@ -24,7 +25,7 @@ const Teachers = () => {
     e.preventDefault();
     addTeacher(formData);
     setIsModalOpen(false);
-    setFormData({ name: '', subject: '', phone: '', experience: '1 Year' });
+    setFormData({ name: '', subject: '', phone: '', experience: '1 Year', gender: 'Male' });
   };
 
   return (
@@ -39,7 +40,7 @@ const Teachers = () => {
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
             <Input 
               type="text" 
-              placeholder="Search teachers or subjects..." 
+              placeholder="Search teachers..." 
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="pl-10"
@@ -58,14 +59,14 @@ const Teachers = () => {
             key={teacher.id}
             initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: index * 0.05 }}
           >
-            <Card className="hover:shadow-md transition-shadow group">
+            <Card className="hover:shadow-md transition-shadow group border-none shadow-sm overflow-hidden">
               <CardContent className="p-6">
                 <div className="flex justify-between items-start">
                   <div className="relative">
                     <img 
-                      src={`https://api.dicebear.com/7.x/micah/svg?seed=${teacher.name}`} 
+                      src={`https://api.dicebear.com/7.x/notionists/svg?seed=${teacher.name}&gender=${teacher.gender?.toLowerCase() || 'male'}`} 
                       alt={teacher.name} 
-                      className="w-16 h-16 rounded-2xl bg-primary-100 p-2 object-cover"
+                      className="w-16 h-16 rounded-2xl bg-gray-100 dark:bg-dark-bg p-1 object-cover"
                     />
                     <span className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-white dark:border-dark-card ${
                       teacher.status === 'Active' ? 'bg-green-500' : 'bg-gray-400'
@@ -77,18 +78,18 @@ const Teachers = () => {
                 </div>
                 
                 <div className="mt-4">
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-white">{teacher.name}</h3>
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white truncate">{teacher.name}</h3>
                   <p className="text-sm text-primary-600 dark:text-primary-400 font-medium">{teacher.subject}</p>
                 </div>
 
                 <div className="mt-4 space-y-2">
                   <div className="flex items-center text-gray-500 text-sm dark:text-gray-400">
-                    <Phone className="w-4 h-4 mr-2" />
+                    <Phone className="w-4 h-4 mr-2 text-gray-300" />
                     {teacher.phone}
                   </div>
                   <div className="flex items-center text-gray-500 text-sm dark:text-gray-400">
-                    <Mail className="w-4 h-4 mr-2" />
-                    {teacher.name.split(' ')[0].toLowerCase()}@school.dz
+                    <Mail className="w-4 h-4 mr-2 text-gray-300" />
+                    <span className="truncate">{teacher.email || 'n/a'}</span>
                   </div>
                 </div>
 
@@ -104,9 +105,18 @@ const Teachers = () => {
 
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Add New Teacher">
         <form onSubmit={handleSave} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Full Name</label>
-            <Input required value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} placeholder="e.g. Leila Salah" />
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Full Name</label>
+              <Input required value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} placeholder="e.g. Leila Salah" />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Gender</label>
+              <Select value={formData.gender} onChange={e => setFormData({...formData, gender: e.target.value})}>
+                <option>Male</option>
+                <option>Female</option>
+              </Select>
+            </div>
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Subject Expertise</label>
