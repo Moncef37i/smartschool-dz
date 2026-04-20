@@ -20,15 +20,15 @@ const Navbar = ({ sidebarOpen, setSidebarOpen }) => {
     if (searchQuery.trim().length > 0) {
       const q = searchQuery.toLowerCase();
       
-      const sResults = students
+      const sResults = (students || [])
         .filter(s => s.name.toLowerCase().includes(q))
         .map(s => ({ ...s, type: 'Student', sub: `Class: ${s.class}` }));
       
-      const tResults = teachers
+      const tResults = (teachers || [])
         .filter(t => t.name.toLowerCase().includes(q) || t.subject.toLowerCase().includes(q))
         .map(t => ({ ...t, type: 'Teacher', sub: t.subject }));
       
-      const cResults = classes
+      const cResults = (classes || [])
         .filter(c => c.name.toLowerCase().includes(q))
         .map(c => ({ ...c, type: 'Class', sub: `Teacher: ${c.teacher}` }));
 
