@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Navbar = ({ sidebarOpen, setSidebarOpen }) => {
   const { theme, toggleTheme } = useTheme();
-  const { notifications, markNotificationsRead, students } = useAppContext();
+  const { notifications, markNotificationsRead, students, teachers, classes } = useAppContext();
   const navigate = useNavigate();
   
   const [showNotifs, setShowNotifs] = useState(false);
@@ -18,12 +18,25 @@ const Navbar = ({ sidebarOpen, setSidebarOpen }) => {
 
   useEffect(() => {
     if (searchQuery.trim().length > 0) {
-      const results = students.filter(s => s.name.toLowerCase().includes(searchQuery.toLowerCase())).slice(0, 5);
-      setSearchResults(results);
+      const q = searchQuery.toLowerCase();
+      
+      const sResults = students
+        .filter(s => s.name.toLowerCase().includes(q))
+        .map(s => ({ ...s, type: 'Student', sub: `Class: ${s.class}` }));
+      
+      const tResults = teachers
+        .filter(t => t.name.toLowerCase().includes(q) || t.subject.toLowerCase().includes(q))
+        .map(t => ({ ...t, type: 'Teacher', sub: t.subject }));
+      
+      const cResults = classes
+        .filter(c => c.name.toLowerCase().includes(q))
+        .map(c => ({ ...c, type: 'Class', sub: `Teacher: ${c.teacher}` }));
+
+      setSearchResults([...sResults, ...tResults, ...cResults].slice(0, 8));
     } else {
       setSearchResults([]);
     }
-  }, [searchQuery, students]);
+  }, [searchQuery, students, teachers, classes]);
 
   return (
     <header className="sticky top-0 z-30 flex items-center justify-between h-16 px-4 sm:px-6 border-b border-gray-200 bg-white/80 backdrop-blur-md dark:bg-dark-card/80 dark:border-dark-border">
@@ -47,19 +60,31 @@ const Navbar = ({ sidebarOpen, setSidebarOpen }) => {
           type="text" 
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Global search students..." 
+          placeholder="Search students, teachers, classes..." 
           className="pl-10 pr-4 py-2 w-64 xl:w-96 rounded-full bg-gray-100 dark:bg-dark-bg border border-transparent focus:bg-white dark:focus:bg-dark-card focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 text-sm transition-all focus:outline-none dark:text-white"
         />
         {searchResults.length > 0 && (
           <div className="absolute top-12 left-0 w-full bg-white dark:bg-dark-card border border-gray-100 dark:border-dark-border rounded-xl shadow-xl overflow-hidden py-2">
-            {searchResults.map(s => (
+            {searchResults.map(res => (
               <div 
-                key={s.id} 
-                onClick={() => { navigate('/students'); setSearchQuery(''); }}
-                className="px-4 py-2 hover:bg-gray-50 dark:hover:bg-dark-border cursor-pointer flex flex-col"
+                key={`${res.type}-${res.id}`} 
+                onClick={() => { 
+                  navigate(res.type === 'Student' ? '/students' : res.type === 'Teacher' ? '/teachers' : '/classes'); 
+                  setSearchQuery(''); 
+                }}
+                className="px-4 py-2 hover:bg-gray-50 dark:hover:bg-dark-border cursor-pointer flex justify-between items-center"
               >
-                <span className="text-sm font-semibold dark:text-white">{s.name}</span>
-                <span className="text-xs text-gray-500">Class: {s.class} | ID: #{s.id}</span>
+                <div className="flex flex-col">
+                  <span className="text-sm font-semibold dark:text-white">{res.name}</span>
+                  <span className="text-xs text-gray-500">{res.sub}</span>
+                </div>
+                <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase ${
+                  res.type === 'Student' ? 'bg-blue-100 text-blue-600' : 
+                  res.type === 'Teacher' ? 'bg-green-100 text-green-600' : 
+                  'bg-purple-100 text-purple-600'
+                }`}>
+                  {res.type}
+                </span>
               </div>
             ))}
           </div>
@@ -115,7 +140,7 @@ const Navbar = ({ sidebarOpen, setSidebarOpen }) => {
             className="w-8 h-8 rounded-full bg-primary-100 dark:bg-primary-900 border border-primary-200 dark:border-primary-700" 
           />
           <div className="hidden md:flex flex-col text-left">
-            <span className="text-sm font-semibold text-gray-700 dark:text-gray-200 leading-tight">Admin DZ</span>
+            <span className="text-sm font-semibold text-gray-700 dark:text-gray-200 leading-tight">Moncef</span>
             <span className="text-xs text-gray-500">Director</span>
           </div>
         </div>
