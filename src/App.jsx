@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import AppRoutes from './routes/AppRoutes';
 import { ThemeProvider } from './context/ThemeContext';
 import { AppProvider } from './context/AppContext';
@@ -10,10 +10,10 @@ function App() {
   return (
     <ThemeProvider>
       <AppProvider>
-        <BrowserRouter basename={import.meta.env.BASE_URL}>
+        <HashRouter>
           <AppRoutes />
           <Toaster />
-        </BrowserRouter>
+        </HashRouter>
       </AppProvider>
     </ThemeProvider>
   );
