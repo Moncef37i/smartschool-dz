@@ -2,7 +2,6 @@
 
 **SmartSchool DZ** is a premium, modern School Management System (SaaS Dashboard) built to streamline educational administration. It provides a centralized platform for managing students, faculty, academics, and school operations with a focus on performance and user experience.
 
-![Dashboard Preview](./src/assets/images/dashboard-preview.png)
 
 ## ✨ Key Features
 
